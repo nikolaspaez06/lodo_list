@@ -19,12 +19,11 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 
-
 // ConectMongo
 const dburl = "mongodb://localhost:27017/tododb"
 mongoose.connect(process.env.MONGO_DB_URI)
-// mongoose.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true})
 
+//Get page
 app.get("/",(req, res) => {
     Todo.find()
     .then(result =>{
@@ -32,13 +31,14 @@ app.get("/",(req, res) => {
         console.log(result)
     })
 })
-////
+
+// Get for ID List
 app.get("/:id", (req, res) => {
     const todoId = req.params.id;
     Todo.findById(todoId)
     .then(todo => {
         if (!todo) {
-        res.status(404).send('Documento no encontrado.');
+        res.status(404).send('Tarea no encontrado.');
         return;
         }
 
@@ -46,55 +46,65 @@ app.get("/:id", (req, res) => {
     })
     .catch(error => {
         console.error(error);
-        res.status(500).send('Error al buscar el documento.');
+        res.status(500).send('Error al buscar la tarea.');
     });
 });
 
-////
+//// Create List
 app.post("/",(req,res) => {
-    const todo = new Todo({
+    const todoId = new Todo({
         todo: req.body.todoValue
 
 })
-todo.save()
+todoId.save()
 .then(result =>{
     res.redirect("/")
 })
 })
 
-
+// post by id to update List the information entered in patch
 app.post("/:id", (req, res) => {
     const todoId = req.params.id;
-    const updatedTodo = req.body.todoValue;
+    const todoValue = req.body.todoValue;
 
-    Todo.findByIdAndUpdate({ _id: todoId }, { todo: updatedTodo })
-    .then(() => {
-        res.redirect("/");
+    Todo.findByIdAndUpdate(todoId, { todo: todoValue }, { new: true })
+    .then(updatedTodo => {
+        if (!updatedTodo) {
+        res.status(404).send('Tarea no encontrado.');
+        return;
+        }
+        
+        console.log(updatedTodo);
+        res.redirect('/');
     })
     .catch(error => {
         console.error(error);
-        res.status(500).send('Error al actualizar la información.');
+        res.status(500).send('Error al actualizar la Tarea.');
     });
 });
 
-
-///
-
+//Update List
 app.patch('/:id', (req, res) => {
-    const todoId = req.params.id
-    const todoValue = req.body.todoValue
+    const todoId = req.params.id;
+    const todoValue = req.body.todoValue;
 
-    Todo.updateOne({ _id: todoId }, { todo: todoValue })
-    .then(() => {
-        res.redirect(`/update/${todoId}`);
+    Todo.findByIdAndUpdate(todoId, { todo: todoValue }, { new: true })
+    .then(updatedTodo => {
+        if (!updatedTodo) {
+        res.status(404).send('Tarea no encontrado.');
+        return;
+        }
+        
+        console.log(updatedTodo);
+        res.redirect('/');
     })
     .catch(error => {
-        // Manejo de errores
         console.error(error);
-        res.status(500).send('Error al actualizar la información.');
-    })
-})
+        res.status(500).send('Error al actualizar la Tarea.');
+    });
+});
 
+// Delete List
 app.delete('/:id',(req,res)=>{
     Todo.findByIdAndDelete(req.params.id)
     .then(result =>{
