@@ -1,0 +1,91 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body {
+    background: rgb(136, 131, 131);
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items:  center;
+    flex-direction: column;
+}
+h1 {
+    color: rgb(89, 199, 183);
+    padding: 3rem;
+    font-size: 3rem;
+}
+
+input{
+    min-width: 600px;
+    height: 1.6rem;
+    border-radius: 10px 0 10px 0;
+    border: solid 2px rgb(89, 199, 183);
+    padding-left:  1rem;
+    color:  rgb(0, 0, 0);
+    font-size: 1rem;
+    outline: none;
+}
+
+::placeholder {
+    color: rgba(127, 169, 247, 0.988);
+}
+
+button{
+    width: 200px;
+    height: 2rem;
+    background:  rgba(127, 169, 247, 0.988);
+    border: none;
+    color: aliceblue;
+
+}
+
+.todo-container{
+    min-width: 800px;
+    color:  rgb(0, 0, 0);
+    border-radius: 10px 0 10px 0;
+    border: solid 2px rgb(89, 199, 183);
+    padding-left:  1rem;
+    font-size: 1rem;
+    outline: none; 
+    height: 4rem;
+    background: #eee;
+    display: inline-block;
+
+}
+.todo-value{
+    font-size: 1.5rem;
+    align-items:  center;
+    margin-top: 0.5em;
+
+}
+.todo-delete{
+    width: 50px;
+    height: 0.5rem;
+    display: flex;
+    border: 1px solid rgba(248, 0, 0, 0.622);
+    padding: 10px 20px;
+    background-color: rgba(248, 0, 0, 0.622);
+    color: #eee;
+    text-decoration: none;
+    margin-left: 43em;
+    margin-top: -1.900em;
+    align-items: center;
+
+}
+.todo-update{
+    width: 74px;
+    height: 2rem;
+    display: flex;
+    border: 1px solid rgb(89, 199, 183);
+    padding: 10px 20px;
+    background-color: rgb(89, 199, 183);
+    color: #eee;
+    text-decoration: none;
+    margin-left:55em;
+    margin-top: -1.82em;
+    align-items:  center;
+}
