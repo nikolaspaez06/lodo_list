@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <title>Todo list</title>
 </head>
@@ -12,39 +15,45 @@
         <form action="/" method="POST" autocomplete="off">
             <input type="text" placeholder="Add todos..." name="todoValue" required>
             <button type="submit">Add</button>
-
         </form>
 
-
-            <% data.forEach(todoValue => { %>
-                <div class="todo-container">
+        <% data.forEach(todoValue => { %>
+            <div class="todo-container">
                 <div class="todo-value"><%= todoValue.todo %></div>
                 <div>
-                    
-                    <form action="/<%= todoValue.id %>" method="PATCH" class="todo-update-form">
-                    <button class="todo-update <%= todoValue.id %>" type="submit">Update</button>
+                    <form action="/<%= todoValue.id %>" method="POST" class="todo-update-form">
+                        <input type="text" name="todoValue" placeholder="Update ToDo..." required>
+                        <button class="todo-update" type="submit">Update</button>
                     </form>
                 </div>
                 <div>
                     <a class="todo-delete <%= todoValue.id %>">Delete</a>
                 </div>
-
-                </div>
-            <% }) %>
+            </div>
+        <% }) %>
     </div>
 
     <script>
-        const deleteButton = document.querySelectorAll(".todo-delete")
+        const deleteButton = document.querySelectorAll(".todo-delete");
 
-        deleteButton.forEach((button, i) => {
-            button.addEventListener("click",() =>{
-                const endPoint = `/${button.classList[1]}` 
-                fetch(endPoint,{
+        deleteButton.forEach(button => {
+            button.addEventListener("click", () => {
+                const endPoint = `/${button.classList[1]}`;
+                fetch(endPoint, {
                     method: "DELETE"
                 })
-                window.location.href = "/"
-            })
-        })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/";
+                    } else {
+                        console.error("Error al eliminar el elemento");
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
     </script>
 </body>
 </html>
